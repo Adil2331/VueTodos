@@ -13,7 +13,7 @@
     <AppAddTodo @add-todo="addtodo" />
   </main>
 
-  <AppFooter />
+  <AppFooter :stats="stats" />
 </template>
 
 <script lang="ts">
@@ -25,6 +25,7 @@ import AppAddTodo from "./components/AppAddTodo.vue";
 import AppFooter from "./components/AppFooter.vue";
 import { Todo } from "./types/Todo";
 import { Filter } from "./types/Filter";
+import { IStats } from "./types/IStats";
 
 interface State {
   todos: Todo[];
@@ -60,6 +61,12 @@ export default defineComponent({
         default:
           return this.todos;
       }
+    },
+    stats(): IStats {
+      return {
+        active: this.todos.filter((todo) => !todo.completed).length,
+        done: this.todos.filter((todo) => todo.completed).length,
+      };
     },
   },
   methods: {
